@@ -11,14 +11,13 @@ def observable(observer):
 class PrintObserver(Observer):
     #value
     def on_next(self, value):
-        print("Received {0}".format(value))
+        print("Value :", value)
     #error
     def on_error(self, error):
-        print("Error Occurred: {0}".format(error))
+        print("Error :", error)
     # complete
     def on_completed(self):
         print("Completed")
-
 
 if __name__ == '__main__':
     source = Observable.create(observable)
