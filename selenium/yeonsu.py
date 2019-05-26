@@ -1,0 +1,1 @@
+defaultURL = "http://yeonsu-h.icehs.kr/foodlist.do?m=031007&s=yeonsu_h"
