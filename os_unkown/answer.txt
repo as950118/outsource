@@ -1,0 +1,137 @@
+homework
+
+ 1
+  a
+   There are two main advantages of virtualization. The first is compatibility. It's just like a typical computer. So you can turn it back on your PC or on your server or PC. The second is encapsulation. These once configured virtualzation can be replicated and written to multiple computers or to multiple machines on one computer. It reduces the need to reinstall the operating system on each computer.
+  b
+   The first is isolation. Even if multiple virtualization are running on one computer, they are isolated, so even if one virtualization is contaminated with viruses, ransomware, etc,. there is no problem with the hardware. We just have to get rid of the virtualization that are in trouble. The second is that if you put a virtualization on a different kind of hardware, it goes away. That's why virtualization are used in a variety of environments.
+
+ 2
+  Child: pid = 1657 value = 135
+Parent: pid = 1656 value = 130
+
+ 3
+  pid = fork() ~ => 3 / if (pid ==0){ fork(); } ~ => 2 / else{ fork(); } ~ => 2 / if(~){~}else{~} fork(); => 1 
+3+2+2+1 = 8
+
+ 4
+  a
+   The latency of low-priority processes increases to infinity.
+  b
+   FCFS and SJF can cause starvation, but RR is not.
+  c
+   Use "aging algorithm" that give high priority to long-awaited processes.
+
+ 5
+  A
+   FCFS : P1->P2->P3->P4->P5->P6
+SJF : P5->P4->P2->P6->P1->P3
+RR : P1(3)->P2(3)->P3(3)->P4(2, END)->P5(1, END)->P6(3)->P1(3)->P2(1, END)->P3(3)->P6(2, END)->P1(1, END)->P3(3, END)
+  B
+   FCFS : P1=7, P2=4, P3=9, P4=2, P5=1, P6=5
+SJF : P1=7, P2=4, P3=9, P4=2, P5=1, P6=5
+RR : P1=25, P2=16, P3=22, P4=2, P5=1, P6=12
+  C
+   FCFS : P1=7, P2=11, P3=20, P4=22, P5=23, P6=31
+SJF : P1=19, P2=7, P3=28, P4=3, P5=1, P6=12
+RR : P1=25, P2=19, P3=28, P4=11, P5=12, P6=24
+  D
+   FCFS : P1=0, P2=7, P3=11, P4=20, P5=22, P6=23 => 13.83
+SJF : P1=12, P2=3, P3=19, P4=1, P5=0, P6=7 => 7
+RR : P1=12+8=20, P2=3+12=15, P3=6+10+3=19, P4=9, P5=11, P6=12+7=19 => 15.5
+In this case, SJF is minumum average waiting time algorithm.
+
+ 6
+  a
+   code : all of above code
+data : #define SIZE 4, int value 
+satck : int x=4, int y=4, int i, int j, int simple_vector[SIZE] = {0, 1, 2, 3}, return 0
+heap : int *matrix_array
+  b
+   The Code area is where the program code is loaded. Data area is always available. Global, Static, Array variables and Structures are stored. The part defined outside the function, such as "define" and "int value". The Stack area is a temporary use area. There are Regions, Parameters, or Return values. The part defined within the function, such as "int x", "int simple_save[SIZE]", and "return 0". However, some variables are not sized like "int *matrix_array." This is the Heap area.
+ 7
+  a
+   The conversion of physical memory addresses into logical memory addresses by dividing memory into "segments," a logical block unit of different sizes, and allocating memory. The block is allocated at the time of use of memory. The conversion uses a table with segment start address and length information called a "segment table".  This allows each segment to be managed as an "offset". The physical memory address can be calculated using the start address and offset.
+  b
+   Segmentation and virtual memory are managed by dividing them into fixed-sized blocks called "page". The physical memory block unit corresponding to this is called the "frame". Physical memory addresses are obtained by calculating the "page number" and "offset" in the table.
+  c
+   Segmentation fault is caused by incorrect memory reference. In other words, an error occurs because it has touched where it should not be touched. This occurs when touching area 1 set to NULL or touching the allocated memory space. The conundrum is that running a program in debug mode causes an error when releasing the allocated memory, not when it touches the memory that should not be touched, for example:
+int *p = new int[5];
+p[5] = 11; // Okay
+delete p; // Error
+In case of gcc, an error occurs when touching the wrong memory because an option is not specified in the compilation mode.
+ 8
+  A : 466
+B : 5429
+C : over length
+D : over length
+E : 3968
+ 9
+  best fit : 13 -> 18 / 32 -> 55 / 5 -> 10 / 42 cannot be served
+worst fit : 13 -> 55 / 32 -> 55 / 
+
+
+5 -> 23 / 42 cannot be served
+first fit : 13 -> 18 / 32 -> 55 / 5 ->55 / 42 cannot be served
+next fit : 13 -> 23 / 32 -> 55 / 5 -> 55 / 42 cannot be served
+ 10
+  a
+   seed 1 : Base = 13884, Limit = 290 => VA 0 : 782 = Out of bounds / VA 1 : 261 = 14145 / VA 2 : Out of bounds / VA 3 : Out of bounds / VA 4 : Out of bounds
+seed 2 : Base = 15529, Limit = 500 => VA 0 : 15586 / VA 1 : 15615 / VA 2 : Out of bounds / VA 3 : Out of bounds / VA 4 : Out of bounds
+seed 3 : Base = 8916, Limit = 316 => VA 0 : Out of bounds / VA 1 : Out of bounds / VA 2 : Out of bounds / VA 3 : 8983 / VA 4 : 8929
+  b
+   930. Because maximum VA is 929.
+  c
+   16284. Because psize is 16384 and limit is 100.
+
+ 11
+  a
+   seed 1 : JOB 0 DONE at time 2, JOB 2 DONE at time 6, JOB 1 DONE at time 12
+seed 2 : JOB 0 DONE at time 14, JOB 1 DONE at time 22, JOB 2 DONE at time 23
+seed 3 : JOB 1 DONE at time 4, JOB 0 DONE at time 5, JOB 2 DONE at time 11
+  c
+   seed 0 : JOB 1 DONE at time 192, JOB 0 DONE at time 200 => 8
+seed 1 : JOB 1 DONE at time 196, JOB 0 DONE at time 200 => 4
+seed 2 : JOB 1 DONE at time 190, JOB 0 DONE at time 200 => 10
+seed 3 : JOB 1 DONE at time 196, JOB 0 DONE at time 200 => 4
+seed 4 : JOB 1 DONE at time 199, JOB 0 DONE at time 200 => 1
+seed 5 : JOB 1 DONE at time 181, JOB 0 DONE at time 200 => 19
+seed 6 : JOB 1 DONE at time 193, JOB 0 DONE at time 200 => 7
+seed 7 : JOB 1 DONE at time 185, JOB 0 DONE at time 200 => 15
+seed 8 : JOB 1 DONE at time 191, JOB 0 DONE at time 200 => 9
+seed 9 : JOB 1 DONE at time 192, JOB 0 DONE at time 200 => 8
+average : 8.5
+
+ 12
+  a
+   SJF ;
+Job   0 -- Response: 0.00  Turnaround 200.00  Wait 0.00
+Job   1 -- Response: 200.00  Turnaround 400.00  Wait 200.00
+Job   2 -- Response: 400.00  Turnaround 600.00  Wait 400.00
+Average -- Response: 200.00  Turnaround 400.00  Wait 200.00
+FIFO ;
+Job   0 -- Response: 0.00  Turnaround 200.00  Wait 0.00
+Job   1 -- Response: 200.00  Turnaround 400.00  Wait 200.00
+Job   2 -- Response: 400.00  Turnaround 600.00  Wait 400.00
+Average -- Response: 200.00  Turnaround 400.00  Wait 200.00
+  b
+   SJF ;
+Job   0 -- Response: 0.00  Turnaround 100.00  Wait 0.00
+Job   1 -- Response: 100.00  Turnaround 300.00  Wait 100.00
+Job   2 -- Response: 300.00  Turnaround 600.00  Wait 300.00
+Average -- Response: 133.33  Turnaround 333.33  Wait 133.33
+FIFO ;   
+Job   0 -- Response: 0.00  Turnaround 100.00  Wait 0.00
+Job   1 -- Response: 100.00  Turnaround 300.00  Wait 100.00
+Job   2 -- Response: 300.00  Turnaround 600.00  Wait 300.00
+Average -- Response: 133.33  Turnaround 333.33  Wait 133.33
+  c
+   RR ;
+Job   0 -- Response: 0.00  Turnaround 298.00  Wait 198.00
+Job   1 -- Response: 1.00  Turnaround 499.00  Wait 299.00
+Job   2 -- Response: 2.00  Turnaround 600.00  Wait 300.00
+Average -- Response: 1.00  Turnaround 465.67  Wait 265.67
+  d
+   The same turnaround times are held in the type of workloads arranged in ascending order.
+  e
+   There are several things. The first is when the Quantum size is arranged in ascending order and is large enough for most (to be exact, except one or fewer workloads). For example, the quantum size is 100 and the workload is 10, 20, 30, and 1000. Also, 10, 50, and 100 are possible. The second is when there is only one workload, regardless of the Quantum size.
