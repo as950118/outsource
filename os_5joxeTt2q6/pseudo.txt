@@ -1,0 +1,89 @@
+PROGRAM gradeModule:
+
+PROGRAM InputScore with sentence as a factor:
+GET score of things with sentence
+RETURN score of things
+ENDPROGRAM
+
+SET score of labs to result of InputScore with "What is your lab percent so far(-1 if no labs yet)? " as a factor
+SET score of assignment to result of InputScore with "What is your assignment percent so far(-1 if no assignment yet)? " as a factor
+SET score of exams to result of InputScore with "What is your exams percent so far(-1 if no exams yet)? " as a factor
+
+
+
+PROGRAM CheckScore with score and weigth s factors:
+IF score is -1 THEN
+RETURN 0
+ELSE
+RETURN weigth
+ENDPROGRAM
+
+SET weigth of labs to result of CheckScore with score of labs and 20 as factors
+SET weigth of assignment to result of CheckScore with score of assignment and 10 as factors
+SET weigth of exams to result of CheckScore with score of exams and 70 as factors
+
+
+
+PROGRAM CalculateWorth with score and weigth as factors:
+CALCULATE score * weigth
+SET worth to result of calculation
+RETURN worth
+ENDPROGRAM
+
+SET worth of labs to result of CalculateWorth with score of labs and weight of labs as factors
+SET weigth of assignment to result of CalculateWorth with score of assignment and weight of assignment as factors
+SET weigth of exams to result of CalculateWorth with score of exams and weight of exams as factors
+
+
+
+PROGRAM SumThings with three things as factors:
+CALCULATE first + second + third
+SET sum of things to result of calculation
+RETURN sum of things
+ENDPROGRAM
+
+SET sum of worth to result of SumThings with three worths as factors
+SET sum of weight to result of calculation with three weight as factors
+
+
+
+PROGRAM CalculateScore with worth and weight as factors:
+CALCULATE worth / weight
+SET score to result of calculation
+RETURN score
+ENDPROGRAM
+
+SET result of score to result of CalculateScore with sum of worth and sum of weight as factors
+
+
+
+PROGRAM CalculateGrade with score as a factor:
+IF score is 90 or more THEN
+ SET grade to A
+ ELSE
+  IF score is 75 or more THEN
+  SET grade to B
+  ELSE
+   IF score is 60 or more THEN
+   SET grade to C
+   ELSE
+    IF score is 50 or more THEN
+    SET grade to D
+    ELSE
+    SET grade to F
+    ENDIF
+   ENDIF
+  ENDIF
+ENDIF
+RETURN grade
+ENDPROGRAM
+
+PROGRAM DisplaySocreAndGrade with score and grade as factors:
+SET sentence to "If things keep going the way they are you should get a score% in the course, which is a grade."
+RETURN sentence
+ENDPROGRAM
+
+SET result of sentence to result of DisplaySocreAndGrade with result of score and result of grade as a factor
+DISPLAY result of sentence
+
+ENDPROGRAM

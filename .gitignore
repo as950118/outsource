@@ -4,3 +4,5 @@ venv
 *.csv
 *.xls
 *.pdf
+*.avi
+*.mp4
