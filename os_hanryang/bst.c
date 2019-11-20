@@ -1,10 +1,17 @@
 #include<stdio.h>
 #include<stdlib.h>
+#include<string.h>
+#include <unistd.h>
 #include "bst.h"
 
+
 /*
-except for the helper function 'findMinNode, all functions are the recursive function.
+
+Place for the BST functions from Exercise 1.
+
 */
+
+int height(struct Node* node);
 
 Node* insertNode(Node *root, int value)
 {
@@ -100,52 +107,154 @@ void printSubtree(Node *N){
 }
 
 int countNodes(Node *N){
-
-	/*
-	describe
-	count all node in N
-	*/
-
-	int count = 0;
-
-	if(N == NULL){
+	int count=0;
+	if(N==NULL)
 		return 0;
-	}
-	
-	count = countNodes(N->left) + countNodes(N->right);
-
+	count = count + countNodes(N->left);
+	count = count + countNodes(N->right);
+	count = count + 1;
 	return count;
 }
 
 Node* freeSubtree(Node *N){
-
-	/*
-	free all nodes in tree N except root Node	
-	*/
-
-	struct Node *left;
-	struct Node *right;
-
-	if(N == NULL) {
+	if (N==NULL)
 		return N;
-	}
-
-	left = N->left;
-	right = N->right;
-
-	N->left = NULL;
-	N->right = NULL;
-	
-	freeSubtree(left);
-	freeSubtree(right);
-
-	if(left != NULL){
-		free(left);
-	}
-
-	if(right != NULL){
-		free(right);
-	}
-	
-	return N;
+	if (N->left)
+		freeSubtree(N->left);
+	if (N->right)
+		freeSubtree(N->right);
+	free(N);
+	N = NULL; 
+	return N;  	
 }
+
+  
+
+
+int sumSubtree(Node *N)
+{
+
+	// TODO: Implement this function
+	if (N == NULL)
+		return 0;
+	return (N->data + sumSubtree(N->left) + sumSubtree(N->right)); 
+}
+
+int max(int a, int b)
+{
+	return (a >= b) ? a : b;
+}
+
+int height(Node *N)
+{
+	int height_left = 0;
+	int height_right = 0;
+
+	if(N->left) height_left = height(N->left);
+	if(N->right) height_right = height(N->right);
+
+	return height_right > height_left ? ++height_right : ++height_left;
+}
+
+int balance_factor(Node *N)
+{
+	int bf = 0;
+	
+	if(N->left) bf += height(N->left);
+	if(N->right) bf += height(N->right);
+	
+	return bf;
+}
+
+
+Node *llRotate(Node *node)
+{
+	Node *a = node;
+	Node *b = a->left;
+	
+	a->left = b->right;
+	b->right = a;
+	
+	return (b);
+}
+
+Node *lrRotate(Node *node)
+{
+	Node *a = node;
+	Node *b = a->left;
+	Node *c = b->right;
+	
+	a->left = c->right;
+	b->right = c->left;
+	c->left = b;
+	c->right = a;
+
+	return (c);
+
+}
+
+Node *rlRotate(Node *node)
+{
+	Node *a = node;
+	Node *b = a->right;
+	Node *c = b->left;
+
+	a->right = c->left;
+	b->left = c->right;
+	c->right = b;
+	c->left = a;
+
+	return (c);
+
+}
+
+Node *rrRotate(Node *node)
+{
+	Node *a = node;
+	Node *b = a->right;
+	
+	a->right = b->left;
+	b->left = a;
+	
+	return (b);
+
+}
+
+// This functions converts an unbalanced BST to a balanced BST 
+Node* balanceTree(Node* root) 
+{
+	Node *newroot = NULL;
+	
+	if(root->left)
+		root->left = balanceTree(root->left);
+	if(root->right)
+		root->right = balanceTree(root->right);
+
+	int bf = balance_factor(root);
+
+	if(bf >=2)
+	{
+		if(balance_factor(root->left) <= -1)
+			newroot = lrRotate(root);
+		else
+			newroot = llRotate(root);	
+	}
+	else if(bf <= -2)
+	{
+		if(balance_factor(root->right) >= 1)
+			newroot = rlRotate(root);
+		else
+			newroot = rrRotate(root);
+	}
+	else
+		newroot = root;
+	return newroot;
+}
+
+
+
+
+
+
+
+

@@ -1,0 +1,40 @@
+# Project: Project2
+# Makefile created by Dev-C++ 5.11
+
+CPP      = g++.exe
+CC       = gcc.exe
+WINDRES  = windres.exe
+OBJ      = bst.o cpucycles.o serve_client.o test_bst.o unique_rng.o
+LINKOBJ  = bst.o cpucycles.o serve_client.o test_bst.o unique_rng.o
+LIBS     = -L"C:/Program Files (x86)/Dev-Cpp/MinGW64/lib" -L"C:/Program Files (x86)/Dev-Cpp/MinGW64/x86_64-w64-mingw32/lib" -static-libgcc -pg
+INCS     = -I"C:/Program Files (x86)/Dev-Cpp/MinGW64/include" -I"C:/Program Files (x86)/Dev-Cpp/MinGW64/x86_64-w64-mingw32/include" -I"C:/Program Files (x86)/Dev-Cpp/MinGW64/lib/gcc/x86_64-w64-mingw32/4.9.2/include"
+CXXINCS  = -I"C:/Program Files (x86)/Dev-Cpp/MinGW64/include" -I"C:/Program Files (x86)/Dev-Cpp/MinGW64/x86_64-w64-mingw32/include" -I"C:/Program Files (x86)/Dev-Cpp/MinGW64/lib/gcc/x86_64-w64-mingw32/4.9.2/include" -I"C:/Program Files (x86)/Dev-Cpp/MinGW64/lib/gcc/x86_64-w64-mingw32/4.9.2/include/c++"
+BIN      = Project2.exe
+CXXFLAGS = $(CXXINCS) -pg -std=c11
+CFLAGS   = $(INCS) -pg -std=c11
+RM       = rm.exe -f
+
+.PHONY: all all-before all-after clean clean-custom
+
+all: all-before $(BIN) all-after
+
+clean: clean-custom
+	${RM} $(OBJ) $(BIN)
+
+$(BIN): $(OBJ)
+	$(CPP) $(LINKOBJ) -o $(BIN) $(LIBS)
+
+bst.o: bst.c
+	$(CPP) -c bst.c -o bst.o $(CXXFLAGS)
+
+cpucycles.o: cpucycles.c
+	$(CPP) -c cpucycles.c -o cpucycles.o $(CXXFLAGS)
+
+serve_client.o: serve_client.c
+	$(CPP) -c serve_client.c -o serve_client.o $(CXXFLAGS)
+
+test_bst.o: test_bst.c
+	$(CPP) -c test_bst.c -o test_bst.o $(CXXFLAGS)
+
+unique_rng.o: unique_rng.c
+	$(CPP) -c unique_rng.c -o unique_rng.o $(CXXFLAGS)

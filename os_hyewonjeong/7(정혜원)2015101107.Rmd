@@ -1,0 +1,47 @@
+---
+title: "7(정혜원)2015101107"
+author : "7(정혜원)2015101107"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+#reticulate 라이브러리를 사용해서 파이썬 불러오기
+library(reticulate)
+knitr::opts_chunk$set(echo = TRUE)
+use_python("/usr/local/bin/python")
+```
+
+
+```{python}
+import matplotlib.pyplot as plt
+from wordcloud import WordCloud, STOPWORDS, ImageColorGenerator
+from PIL import Image
+import numpy as np
+
+#사용할 텍스트 파일 이름
+filename = 'cheese.txt'# 한글파일은 암호 화문제로 읽어오지 못해서 텍스트 파일로 변환
+#사용할 배경 이미지 파일 이름
+figname = 'cheese_fig.jpg'
+#저장할 결과물 이미지 파일 이름
+resultname = 'cheese_wc.png'
+
+#텍스트 읽어오기
+text = open(filename, encoding='utf-16').read()
+#배경 이미지를 Image로 연 후, numpy array로 변환
+cheese_mask = np.array(Image.open(figname))
+#배경 이미지를 이용하여 결과물 이미지의 색상 결정
+image_colors = ImageColorGenerator(cheese_mask)
+
+#wordCloud 모듈을 이용하여 만들기
+wc = WordCloud(mask=cheese_mask, background_color='white')
+wordcloud = wc.generate(text)
+
+#12, 12 사이즈로 제작
+plt.figure(figsize=(12,12))
+plt.imshow(wordcloud.recolor(color_func=image_colors), interpolation='bilinear')
+plt.axis('off')
+#저장
+plt.savefig(resultname)
+#보여주기
+plt.show()
+```

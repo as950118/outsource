@@ -111,8 +111,10 @@
         </div>
         <div class="col-lg-3 col-md-6 text-center">
           <div class="mt-5">
-            <i class="fas fa-cheese fa-5x"></i>
-            <h3 class="h4 mb-2">안주 추천</h3>
+            <a href="/#services" class="text-dark js-scroll-trigger">
+              <i class="fas fa-cheese fa-5x"></i>
+              <h4 class="mb-2">안주 추천</h4>
+            </a>
             <p class="text-muted mb-0">고객의 보유한 와인에 적합한 안주 서비스를 제공합니다.</p>
           </div>
         </div>
@@ -123,7 +125,7 @@
 
   <!-- Services Section -->
   <section class="page-section" id="services">
-    <div class="container">
+    <div class="container" style="width:50%">
       <div class="row justify-content-center">
         <div class="col-lg-8 text-center">
           <h2 class="mt-0">안주추천</h2>
@@ -132,20 +134,11 @@
         </div>
       </div>
 	<center>
-      <form action=/winesite/predict>
+      <form action=/winesite/predict#results>
        <div class="form-group row">
-        <label for="InputSex" class="col-sm-2 col-form-label">성별</label>
+        <label for="InputAge" class="text-primary col-sm-2 col-form-label">나이대</label>
          <div class="col-sm-10">
-        <select class="form-control" name="sex" id="InputSex">
-          <option value="0 남자">남자</option>
-          <option value="1 여자">여자</option>
-        </select>
-           </div>
-       </div>
-       <div class="form-group row">
-        <label for="InputSex" class="col-sm-2 col-form-label">나이대</label>
-         <div class="col-sm-10">
-        <select class="form-control" name="age">
+        <select class="form-control" name="age" id="InputAge">
           <option value="0 20대">20대</option>
           <option value="1 30대">30대</option>
           <option value="2 40대">40대</option>
@@ -154,18 +147,18 @@
        </div>
        </div>
        <div class="form-group row">
-        <label for="InputSex" class="col-sm-2 col-form-label">결혼유무</label>
+        <label for="InputSex" class="text-primary col-sm-2 col-form-label">성별</label>
          <div class="col-sm-10">
-        <select class="form-control" name="martial">
-          <option value="0 기혼">기혼</option>
-          <option value="1 미혼">미혼</option>
+        <select class="form-control" name="sex" id="InputSex">
+          <option value="0 남자">남자</option>
+          <option value="1 여자">여자</option>
         </select>
-         </div>
+           </div>
        </div>
        <div class="form-group row">
-        <label for="InputSex" class="col-sm-2 col-form-label">직업</label>
+        <label for="InputJob" class="text-primary col-sm-2 col-form-label">직업</label>
          <div class="col-sm-10">
-        <select class="form-control" name="job">
+        <select class="form-control" name="job" id="InputJob">
           <option value="0 전문직">전문직</option>
           <option value="1 회사원">회사원</option>
           <option value="2 자영업">자영업</option>
@@ -173,7 +166,16 @@
         </select>
          </div>
        </div>
-        <button type = "submit" class="btn btn-primary">추천받기</button>
+       <div class="form-group row">
+        <label for="InputMartial" class="text-primary col-sm-2 col-form-label">결혼유무</label>
+         <div class="col-sm-10">
+        <select class="form-control" name="martial" id="InputMartial">
+          <option value="0 기혼">기혼</option>
+          <option value="1 미혼">미혼</option>
+        </select>
+         </div>
+       </div>
+        <button type = "submit" class="btn btn-primary btn-xl">추천받기</button>
       </form>
 	</center>
     </div>

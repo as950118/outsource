@@ -144,7 +144,7 @@ void test_tack34(){
 	char *client_names[5] = {"client1_commands", "client2_commands", "client3_commands",
 	                         "client4_commands", "client5_commands"};
 
-	pthread_t threads[6];
+	pthread_t threads[6]t;
 
 	/*****************************************************/
 	/******   Part 2 of Exercise 2 Starts here    ********/

@@ -1,267 +1,185 @@
-#include<stdio.h>
-#include<stdlib.h>
-#include<string.h>
-#include <unistd.h>
+#include <stdio.h>
+#include <stdlib.h>
 #include "bst.h"
 
-#define MAX(a,b) ((a>b) ? a : b)
-
-/*
-
-Place for the BST functions from Exercise 1.
-
-*/
-
-Node* insertNode(Node *root, int value)
+Node *insertNode(Node *root, int value)
 {
-	/*
-	describe
-	add new node with value 'data'
-	we assume that we don't care the duplicates in tree.
-	*/
-	
-	if (root == NULL)
-	{
-		root = malloc(sizeof (Node));
-		root->data = value;
-		root->left = NULL;
-		root->right = NULL;
-	}
-	else if (value < root->data)
-	{
-		root->left = insertNode(root->left, value);
-	}
-	else
-	{
-		root->right = insertNode(root->right, value);
-	}
-	
-	return root;
+    // check for the empty tree.
+    if (root == NULL)
+    {
+        root = (Node *)malloc(sizeof(Node));
+        if (root == NULL)
+        {
+            //printf("Allocation unsuccessful\n");
+            return NULL;
+        }
+        // Initialise all data values.
+        root->data = value;
+        root->left = NULL;
+        root->right = NULL;
+        //printf("Node with value %d has been inserted\n", value);
+    }
+    else if (value > root->data)
+    { // Inserting the data.
+        //printf("%d > %d so inserting right\n", value, root->data);
+        root->right = insertNode(root->right, value);
+    }
+    else
+    {
+        //printf("%d < %d so inserting left\n", value, root->data);
+        root->left = insertNode(root->left, value);
+    }
+    return root;
 }
 
-Node* findMinNode(Node* root){
+Node *deleteNode(Node *root, int value)
+{
+    // Firstly, we can check if the tree is empty...
+    if (root == NULL)
+    {
+        //printf("Tree is empty!\n");
+        return root;
+    }
 
-	/*
-	describe
-	finding minimum value node at the tree
-	this is helper function for deleteNode.
-	*/
-	struct Node* temp = root;
-	while(temp->left != NULL){
-		temp = temp->left;
-	}
-	return temp;
+    // We first need to traverse to the part of the tree which holds our value...
+    if (value == root->data)
+    {
+        //printf("%d = %d so deleting node\n", value, root->data);
+        if (root->left == NULL)
+        { // Right children exist
+            //printf("Deleting node\n");
+            Node *temp = root->right;
+            free(root);
+            return temp;
+        }
+        else if (root->right == NULL)
+        { // Left children exist.
+            //printf("Deleting node\n");
+            Node *temp = root->left;
+            free(root);
+            return temp;
+        }
+        // When left AND right children exist.
+        Node *temp = findMinimum(root->right);
+        root->data = temp->data;
+        root->right = deleteNode(root->right, temp->data);
+    }
+    else if (value > root->data)
+    {
+        //printf("%d > %d so traversing right subtree\n", value, root->data);
+        root->right = deleteNode(root->right, value);
+    }
+    else
+    { // The default case where the value is less than the root.
+        //printf("%d < %d so traversing left subtree\n", value, root->data);
+        root->left = deleteNode(root->left, value);
+    }
+    return root;
 }
 
-Node* deleteNode(Node* root, int value){
-
-	/*
-	describe
-	remove node that has value 'value'
-	if leaf has 'value', then remove it
-	if node(which has left or right) has 'value', have to find
-	minimum of the right, and then replace it.
-	*/
-
-	struct Node *temp;
-
-	if(root == NULL){
-		return NULL;
-	}
-
-	if(root->data > value){
-		root->left = deleteNode(root->left, value);
-	}else if(root->data < value){
-		root->right = deleteNode(root->right, value);
-	}else {
-		if(root->left != NULL && root->right != NULL) {
-			temp = findMinNode(root->right);
-			root->data = temp->data;
-			root->right = deleteNode(root->right, temp->data);
-		}else{
-			temp = (root->left == NULL) ? root->right : root->left;
-			free(root);
-			return temp;
-		}
-	}
-	return root;
+// inorder sucessor finds the minimum value of the right child of the root passed into it.
+Node *findMinimum(Node *root)
+{
+    while (root->left != NULL)
+    {
+        root = root->left;
+    }
+    return root;
 }
 
-void printSubtree(Node *N){
-	
-	/*
-	describe
-	print trees "inorder" way
-	whic is left, node, right order
-	*/
+// Prints using in order traversal.
+void printSubtree(Node *N)
+{
+    if (N == NULL)
+    {
+        return;
+    }
 
-	if(N == NULL){
-		return;
-	}
-	printSubtree(N->left);
-	printf("%d\n", N->data);
-	printSubtree(N->right);
-	
-	return;
+    printSubtree(N->left);
+    printf("%d\n", N->data);
+    printSubtree(N->right);
 }
 
-int countNodes(Node *N){
-
-	/*
-	describe
-	count all node in N
-	*/
-
-	int count = 0;
-
-	if(N == NULL){
-		return 0;
-	}
-	
-	count = countNodes(N->left) + countNodes(N->right);
-
-	return count;
+int countNodes(Node *N)
+{
+    //printf("Inside count nodes\n");
+    if (N == NULL)
+    {
+        //printf("Node is null!\n");
+        return 0;
+    }
+    return 1 + countNodes(N->left) + countNodes(N->right);
 }
 
-Node* freeSubtree(Node *N){
+Node *balanceTree(Node *root)
+{
+    // Perform an in order traversal and store every item in an array.
+    int treeSize = countNodes(root);
+    //printf("Tree size is %d\n", treeSize);
+    int *treeArray = (int *)malloc(sizeof(int) * treeSize);
+    inOrderTraversal(root, treeArray, 0);
 
-	/*
-	free all nodes in tree N except root Node	
-	*/
+    root = freeSubtree(root); // Clear the tree to start balancing.
 
-	struct Node *left;
-	struct Node *right;
+    for (int i = 0; i < treeSize; i++)
+    {
+        //printf("index %d in tree array: %d\n", i, treeArray[i]);
+    }
 
-	if(N == NULL) {
-		return N;
-	}
+    // Next, we recursively add the items back into the tree.
+    root = reAdd(root, treeArray, 0, treeSize - 1);
 
-	left = N->left;
-	right = N->right;
-
-	N->left = NULL;
-	N->right = NULL;
-	
-	freeSubtree(left);
-	freeSubtree(right);
-
-	if(left != NULL){
-		free(left);
-	}
-
-	if(right != NULL){
-		free(right);
-	}
-	
-	return N;
+	free(treeArray);
+    return root;
 }
 
-*/  
+Node *reAdd(Node *N, int arr[], int first, int last)
+{
+    // Take the middle item in the array and add to the tree.
+    // Recursively call the left then right side.
+    if (first > last)
+    {
+        return NULL;
+    }
 
+    int mid = (first + last) / 2; // The middle element in the array.
+    //printf("middle item in array is %d\n", arr[mid]);
+    N = insertNode(N, arr[mid]);
+    reAdd(N, arr, first, mid - 1);
+    reAdd(N, arr, mid + 1, last);
+    return N;
+}
+
+int inOrderTraversal(Node *N, int arr[], int index)
+{
+    if (N == NULL)
+        return index;
+
+    index = inOrderTraversal(N->left, arr, index);
+    arr[index] = N->data;
+    return inOrderTraversal(N->right, arr, index + 1);
+}
 
 int sumSubtree(Node *N)
 {
-
-	// TODO: Implement this function
-	if (N == NULL)
-		return 0;
-	return (N->data + sumSubtree(N->left) + sumSubtree(root->right)); 
+    if (N == NULL)
+        return 0;
+    return sumSubtree(N->left) + N->data + sumSubtree(N->right);
 }
 
-int height(struct Node* N)
+Node *freeSubtree(Node *N)
 {
-	if (N == NULL)
-		return 0;
-	else
-	{
-		/* compute the depth of each subtree */
-		int lHeight = height(N->left);
-		int rHeight = height(N->right);
-		
-		/*use the larger one */
-		if (lHeight > rHeight)
-			return (lHeight+1);
-		else return(rHeight+1);
-	}
+    // Start from bottom of the tree and go up.
+    if (N == NULL)
+    { // If tree is empty.
+        //printf("Node is null\n");
+        return N;
+    }
+    N->left = freeSubtree(N->left);
+    N->right = freeSubtree(N->right);
+    free(N);
+    N = NULL;
+    //printf("Node has been freed\n");
+
+    return N;
 }
-
-/*
-struct Node* newNode(int data)
-{
-	struct Node* Node = (struct Node*)malloc(sizeof(struct Node));
-	
-	Node->data = data;
-	Node->left = NULL;
-	Node->right = NULL;
-	
-	return(Node);
-}
-*/
-
-
-
-struct Node *rightRotate(struct Node *y)
-{
-	struct Node *x = y->left;
-	struct Node *T2 = x->right;
-
-	x->right = y;
-	y->left = T2;
-
-	// How to update heights?
-
-	return y;
-
-}
-
-struct Node *leftRotate(struct Node *x)
-{
-	struct Node *y = x->right;
-	struct Node *T2 = y->left;
-
-	y->left = x;
-	x->right = T2;
-
-	// How to update heights?
-
-	return y;
-}
-
-int getBalance(struct Node *N)
-{
-	if (N == NULL)
-		return 0;
-	return height(N->left) - height(N->right);
-}
-
-
-
-// This functions converts an unbalanced BST to a balanced BST 
-Node* balanceTree(Node* root) 
-{
-	int balacne = getBalance(root);
-	int balance_left = getBalance(root->left);
-	int balance_right = getBalacne(root->right);
-
-	// TODO: Implement this function
-	if (balance > 1 && 0 < balance_left)
-		 return rightRoatate(root);
-	 
-	if (balance < -1 && 0 > balance_right)
-		 return leftRoatate(root);
-
-	if (balance > 1 && 0 > balance_left)
-		 return rightRoatate(root);
-
-	if (balance >1 && 0 < balance_left)
-		 return leftRoatate(root);
-
-	return root;
-	
-} 
-
-
-
-
-
-
