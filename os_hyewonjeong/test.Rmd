@@ -1,0 +1,50 @@
+---
+title: "7-정혜원2015101107"
+author: "7-정혜원-2015101107"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+
+```{r pressure, echo=FALSE, message=FALSE, warning=FALSE}
+#install.packages('tm')
+#install.packages('stringr')
+#install.packages('wordcloud')
+#install.packages('NLP')
+#install.packages('RColorBrewer')
+#install.packages('sp')
+library(tm)
+library(stringr)
+library(wordcloud)
+library(wordcloud2)
+library(NLP)
+library(RColorBrewer)
+library(sp)
+#파일 이름 설정
+#curwd <- "C:/Users/win10-a287/PycharmProjects/python37/outsource/os_hyewonjeong"
+#setwd(curwd)
+filename <- "cheese.txt"
+cloudname <- "cheese_cloud.png"
+#내용 읽어오기
+contents<-readLines(filename)
+#줄 병합
+contents <- paste(contents, collapse = " ")
+#불필요 요소 제거
+contents <- gsub("\\W"," ", contents)
+contents <- gsub('“',"", contents)
+contents <- gsub('”',"", contents)
+
+#모두 소문자 처리
+#contents <- tolower(content)
+#불용어 처리
+contents <- removeWords(contents, stopwords())
+contents <- stripWhitespace(contents)
+#단어로 분리
+contents <- str_split(contents, pattern="\\s+")
+contents <- unlist(contents)
+pal <- brewer.pal(8, "Set1")[5:9]
+wordcloud(contents, random.order = FALSE, min.freq = 5, rot.per=0.1, scale=c(5,0.5), colors=pal)
+```

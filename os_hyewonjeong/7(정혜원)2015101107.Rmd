@@ -12,7 +12,7 @@ use_python("/usr/local/bin/python")
 ```
 
 
-```{python}
+```{python, echo=FALSE, message=FALSE, warning=FALSE}
 import matplotlib.pyplot as plt
 from wordcloud import WordCloud, STOPWORDS, ImageColorGenerator
 from PIL import Image
@@ -41,7 +41,6 @@ plt.figure(figsize=(12,12))
 plt.imshow(wordcloud.recolor(color_func=image_colors), interpolation='bilinear')
 plt.axis('off')
 #저장
-plt.savefig(resultname)
 #보여주기
 plt.show()
 ```
