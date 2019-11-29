@@ -196,7 +196,7 @@ def main():
                 print("Iʼm sorry, {0} is not a valid choice, please enter y or n".format(y_n))
 
     # 종료하기
-    print("Your total score is {0} and {1}".format(ret_point))
+    print("Your total score is {0} and {1}".format(ret_point, ret_ment))
     return
 
 # 게임 실행

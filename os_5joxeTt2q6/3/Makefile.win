@@ -1,0 +1,46 @@
+# Project: Project4
+# Makefile created by Dev-C++ 5.11
+
+CPP      = g++.exe
+CC       = gcc.exe
+WINDRES  = windres.exe
+OBJ      = proc.o ps.o bm.o grapher.o ulib.o usys.o syscall.o sysproc.o
+LINKOBJ  = proc.o ps.o bm.o grapher.o ulib.o usys.o syscall.o sysproc.o
+LIBS     = -L"C:/Program Files (x86)/Dev-Cpp/MinGW64/lib" -L"C:/Program Files (x86)/Dev-Cpp/MinGW64/x86_64-w64-mingw32/lib" -static-libgcc
+INCS     = -I"C:/Program Files (x86)/Dev-Cpp/MinGW64/include" -I"C:/Program Files (x86)/Dev-Cpp/MinGW64/x86_64-w64-mingw32/include" -I"C:/Program Files (x86)/Dev-Cpp/MinGW64/lib/gcc/x86_64-w64-mingw32/4.9.2/include"
+CXXINCS  = -I"C:/Program Files (x86)/Dev-Cpp/MinGW64/include" -I"C:/Program Files (x86)/Dev-Cpp/MinGW64/x86_64-w64-mingw32/include" -I"C:/Program Files (x86)/Dev-Cpp/MinGW64/lib/gcc/x86_64-w64-mingw32/4.9.2/include" -I"C:/Program Files (x86)/Dev-Cpp/MinGW64/lib/gcc/x86_64-w64-mingw32/4.9.2/include/c++"
+BIN      = Project4.exe
+CXXFLAGS = $(CXXINCS) -std=c11
+CFLAGS   = $(INCS) -std=c11
+RM       = rm.exe -f
+
+.PHONY: all all-before all-after clean clean-custom
+
+all: all-before $(BIN) all-after
+
+clean: clean-custom
+	${RM} $(OBJ) $(BIN)
+
+$(BIN): $(OBJ)
+	$(CPP) $(LINKOBJ) -o $(BIN) $(LIBS)
+
+proc.o: proc.c
+	$(CPP) -c proc.c -o proc.o $(CXXFLAGS)
+
+ps.o: ps.c
+	$(CPP) -c ps.c -o ps.o $(CXXFLAGS)
+
+bm.o: bm.c
+	$(CPP) -c bm.c -o bm.o $(CXXFLAGS)
+
+grapher.o: grapher.c
+	$(CPP) -c grapher.c -o grapher.o $(CXXFLAGS)
+
+ulib.o: ulib.c
+	$(CPP) -c ulib.c -o ulib.o $(CXXFLAGS)
+
+syscall.o: syscall.c
+	$(CPP) -c syscall.c -o syscall.o $(CXXFLAGS)
+
+sysproc.o: sysproc.c
+	$(CPP) -c sysproc.c -o sysproc.o $(CXXFLAGS)
