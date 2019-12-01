@@ -1,5 +1,4 @@
 # 쇼핑몰에서 배송을 위해 사용자 주소 확인하는 프로그램
-import sys
 
 # 입력 받기
 def AddrInput():
@@ -103,8 +102,6 @@ def Err(Err_num):
     elif Err_num == -5:
         print("Error: You entered the wrong postal code. Please check and re-enter it")
 
-    # 프로그램 종료
-    sys.exit()
 
 
 ##### 프로그램 시작 #####
@@ -119,28 +116,32 @@ if city_abbreviation == -1 or city_abbreviation == -2:
     Err_num = city_abbreviation
     Err(Err_num)
 
-# 우편주소 두개 그룹으로 분리
-postal_code_1, postal_code_2 = PostSplit(postal_code)
-## 오류가 있다면 Err 발생후 종료
-if postal_code_1 == -3:
-    Err_num = postal_code_1
-    Err(Err_num)
+else:
+    # 우편주소 두개 그룹으로 분리
+    postal_code_1, postal_code_2 = PostSplit(postal_code)
+    ## 오류가 있다면 Err 발생후 종료
+    if postal_code_1 == -3:
+        Err_num = postal_code_1
+        Err(Err_num)
 
-# 정규화 시키기
-city_name, city_abbreviation, postal_code_1, postal_code_2 = Normalization(city_name, city_abbreviation, postal_code_1, postal_code_2)
+    else:
+        # 정규화 시키기
+        city_name, city_abbreviation, postal_code_1, postal_code_2 = Normalization(city_name, city_abbreviation, postal_code_1, postal_code_2)
 
-# 테이블 검사
-abbr_num = CheckAbbr(city_abbreviation)
-## 오류가 있다면 Err 발생후 종료
-if abbr_num == -4:
-    Err_num = abbr_num
-    Err(Err_num)
+        # 테이블 검사
+        abbr_num = CheckAbbr(city_abbreviation)
+        ## 오류가 있다면 Err 발생후 종료
+        if abbr_num == -4:
+            Err_num = abbr_num
+            Err(Err_num)
 
-Err_num = CheckPost(postal_code_1, abbr_num)
-## 오류가 있다면 Err 발생후 종료
-if Err_num == -5:
-    Err(Err_num)
+        else:
+            Err_num = CheckPost(postal_code_1, abbr_num)
+            ## 오류가 있다면 Err 발생후 종료
+            if Err_num == -5:
+                Err(Err_num)
 
-# 결과 출력
-ret_cost = CheckCost(city_abbreviation)
-print("Shipping to {0}, {1} – {2} {3} will cost ${4}.".format(city_name, city_abbreviation, postal_code_1, postal_code_2, ret_cost))
+            else:
+                # 결과 출력
+                ret_cost = CheckCost(city_abbreviation)
+                print("Shipping to {0}, {1} – {2} {3} will cost ${4}.".format(city_name, city_abbreviation, postal_code_1, postal_code_2, ret_cost))

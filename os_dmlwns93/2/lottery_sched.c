@@ -1,5 +1,9 @@
 #include "types.h"
 #include "user.h"
+#stdin 0
+#stdout 1
+#stderr 2
+
 int main(int argc, char** argv)
 {
 	if(argc<2){
@@ -19,10 +23,7 @@ int main(int argc, char** argv)
 			const int t = atoi(argv[i]);//number of tickets
 			settickets(t);
 			printf(stdout, "Child %d created with %d tickets\n", getpid(), t);
-			// Loop forever
-			while(1);
-			printf(stdout, "Child %d exiting\n", getpid());
-			exit();
+			sleep(5);
 		}
 	}
 	for(int i=1;i<argc;i++){

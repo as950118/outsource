@@ -411,7 +411,7 @@ scheduler(void)
       c->proc = 0;
       p->ticks += (ticks - ticks0);
       if (p->tickets > 1)
-        cprintf("XV6_TEST_OUTPUT pid: %d, parent: %d, tickets:%d, ticks: %d\n",
+        cprintf("pid: %d, parent: %d, tickets:%d, ticks: %d\n",
           p->pid, p->parent->pid, p->tickets, p->ticks);
     }
     release(&ptable.lock);
