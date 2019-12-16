@@ -1,0 +1,22 @@
+본인 프로젝트의 진행 방향에 대한 계획서를 제출하세요.
+
+
+1. 데이터를 어떤 데이터를 사용할 것인지.
+
+2. 데이터의 어떤 부분을 사용할 것이고, 데이터에 대한 설명
+
+3. 데이터를 어떻게 정제할 것인지.
+
+4. 모델 설계에 대한 부분 간략히 설명
+
+
+데이터(4.58g) 링크-> https://drive.google.com/open?id=1oY79cGpGuYd3jbSXLDvgjMrXVaTgHbEP
+
+문자 인코딩, CNN관련 참고자료 -> RNN : https://www.tensorflow.org/tutorials/text/text_classification_rnn
+			   CNN : https://www.tensorflow.org/tutorials/images/classification
+
+
+1. 텐서플로우2.0 기반입니다.
+2. 미세먼지, 이탈유저, 항공기 결항 세가지 중 한개 선택입니다.
+3. 오로지 제출만이 목적이라 난이도나 퀄리티는 전혀 상관 없습니다.
+4. 기한 : 12/9
