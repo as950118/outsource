@@ -2,10 +2,8 @@
 import flask
 import os
 import binascii
-import json
-from flask import request, jsonify, render_template
+from flask import request,  render_template
 from werkzeug import secure_filename
-from flask_socketio import SocketIO, emit
 from Crypto.PublicKey import RSA
 from PGP_All_Common import *
 
@@ -36,7 +34,8 @@ def upload():
     f.write(sender_publickey)
     f.close()
 
-    return render_template("upload.html", sender_id = sender_id, sender_privatekey = sender_privatekey, sender_publickey = sender_publickey)
+    #return render_template("upload.html", sender_id = sender_id, sender_privatekey = sender_privatekey, sender_publickey = sender_publickey)
+    return render_template("upload.html", sender_id = sender_id)
 
 @app.route("/result", methods=['POST'])
 def result():
