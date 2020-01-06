@@ -5,7 +5,6 @@ import unittest
 from wordnet import WordNet
 
 class TestWordNet(unittest.TestCase):
-
     @classmethod
     def setUpClass(cls):
         cls.wn = WordNet("data/synsets.txt", "data/hypernyms.txt")
@@ -26,7 +25,7 @@ class TestWordNet(unittest.TestCase):
     def test_paths_to_root_count(self):
         dog_synsets = self.wn.get_synsets("dog")
         domestic_dog = next(syn for syn in dog_synsets if "domestic_dog" in syn.name)
-        
+
         paths = self.wn.paths_to_root(domestic_dog)
         self.assertEqual(len(paths), 2) 
 
@@ -36,7 +35,7 @@ class TestWordNet(unittest.TestCase):
         
         paths = self.wn.paths_to_root(domestic_cat)
         self.assertEqual(len(paths), 1) 
-        self.assertEqual(len(paths[0]), 13) 
+        self.assertEqual(len(paths[0]), 13)
 
     def test_lowest_common_hypernym(self):
         dog_synsets = self.wn.get_synsets("dog")
@@ -56,7 +55,7 @@ class TestWordNet(unittest.TestCase):
     def test_distance(self):
         dog_synsets = self.wn.get_synsets("dog")
         domestic_dog = next(syn for syn in dog_synsets if "domestic_dog" in syn.name)
-        
+
         cat_synsets = self.wn.get_synsets("cat")
         domestic_cat = next(syn for syn in cat_synsets if "true_cat" in syn.name)
 
@@ -80,3 +79,6 @@ class TestWordNet(unittest.TestCase):
         #[61107] placental placental_mammal eutherian eutherian_mammal: mammals having a placenta; all mammals except monotremes and marsupials
         self.assertEqual(len(lowest_common_hypernyms), 1)
         self.assertEqual(next(iter(lowest_common_hypernyms)).index, 61107)
+
+if __name__ == "__main__":
+    unittest.main()
