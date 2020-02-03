@@ -4,9 +4,7 @@ from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions
 from selenium.common.exceptions import ElementNotVisibleException
 
-from collections import defaultdict
 import re
-import socket
 import urllib.request
 from urllib import parse
 
@@ -19,6 +17,9 @@ wd = webdriver.Chrome(chromedriver_path)
 
 # 로그인하기
 wd.get('https://accounts.interpark.com/login/form')
+file = open('./account.txt')
+my_id = file.readline()
+my_pwd = file.readline()
 wd.find_element_by_id('userId').send_keys(my_id)
 wd.find_element_by_id('userPwd').send_keys(my_pwd)
 wd.find_element_by_id('btn_login').click()
@@ -75,5 +76,4 @@ for link in links:
     print(type(link))
     link.click()
     select_num -= 1
-
 
